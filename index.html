@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Patient Mem Tool</title>
+  //Made using Google Gemini Advanced on October 16, 2024
+  <style>
+    .green-input {
+      background-color: green;
+    }
+    .red-input {
+      background-color: red;
+    }
+    #tables {
+      display: none; 
+    }
+  </style>
+</head>
+<body>
+
+  <div id="form">
+    <label for="numColumns">Number of Columns:</label>
+    <input type="number" id="numColumns" min="1" value="2">
+    <button onclick="generateTables()">Generate Tables</button>
+  </div>
+
+  <div id="tables">
+    <h1>Patient Info</h1>
+    <button onclick="toggleTable1()">Toggle Table 1</button>
+    <table id="table1"></table>
+
+    <h1>Patient Info 2</h1>
+    <table id="table2"></table>
+  </div>
+
+  <script>
+    function generateTables() {
+      const numColumns = document.getElementById('numColumns').value;
+      const table1 = document.getElementById('table1');
+      const table2 = document.getElementById('table2');
+      const A = ['Mia', 'Ava', 'Leo', 'Kai', 'Zoe', 'Ivy', 'Ian', 'Eli', 'Eva', 'Ace', 'Max', 'Ada', 'Ari', 'Amy', 'Lia', 'Ana', 'Noa', 'Jax', 'Gia', 'Ali'];
+      const B = ['ADHD','rhinitis','anemia','lupus','right stroke','left stroke','BPD','cerebral palsy', 'crohns','asthma','afib','CKDII','CKDIII','ESRD','back pain','migraine','MS','OA','CAD','CF','ulcer','dizziness','hypothyroidism','fibromyalgia','gout','addisons','hemophilia','HFPEF','smoking','obesity','OSA','osteoporosis','PVD','psoriasis','PTSD','sarcoidosis','SCD'];
+      const C = ['Sepsis', 'CHF', 'OA', 'PNA', 'DKA', 'HHS', 'STEMI', 'NSTEMI', 'Afib', 'COPD exac', 'AKI', 'CVA', 'SSTI', 'none', 'UTI', 'Resp failure', 'Asthenia', 'CABG', 'Cholelithiasis', 'Pancreatitis', 'Endocarditis', 'UGIB', 'LGIB', 'DVT', 'PE', 'Alcohol withdawal'];
+      const D = ['afib','aflutter','AVRT','atach','AVNRT','PSVT','WPW','PVC','TdP','CPVT','Long QT','SSS', 'NSR', 'none'];
+      const E = ['65% MR', '65% AS', '60% TR', 'none', '60% PR', '55% MS', '55% AR', '50% TS', '50% PS', '45%', '40%', '35%', '30%'];
+      const F = ['tylenol','albuterol', 'none', 'alendronate','allopurinol','alprazolam','amoxicillin','atenolol','atorvastatin','azithromycin','amlodipine','carvedilol','cefdinir','celecoxib','cephalexin','ciprofloxacin','citalopram','clonazepam','clonidine','clopidogrel','cyclobenzaprine','diazepam','diclofenac','Duloxetine','doxycyclinelate','enalapril','escitalopram','esomeprazole','ezetimibe','fenofibrate','fexofenadine','fluconozole','fluoxetine','fluticasone','furosemide','gabapentin','glimepiride','glyburide','glipizide','HCTZ','hydrocodone','glargine','imdur','lansoprazole','synthroid','lisinopril','lorazepam','losartan','lovastatin','meloxicam','metformin','solumedrol','toprol','lopressor','mometasone','montelukast','naproxen','omeprazole','oxycodone','pantoprazole','paroxetine','pioglitazone','pravastatin','prednisone','pregabalin','promethazine','quetiapine','ranitidine','rosuvastatin','sertraline','viagra','simvastatin','spironolactone','tamsulosin','topiramate','tramadol','trazodone','valsartan','venlafaxine','verapamil','zolpidem'];
+      const G = ['tylenol','albuterol', 'none', 'alendronate','allopurinol','alprazolam','amoxicillin','atenolol','atorvastatin','azithromycin','amlodipine', 'carvedilol','cefdinir','celecoxib','cephalexin','ciprofloxacin','citalopram','clonazepam','clonidine','clopidogrel','cyclobenzaprine','diazepam','diclofenac','Duloxetine','doxycyclinelate','enalapril','escitalopram','esomeprazole','ezetimibe','fenofibrate','fexofenadine','fluconozole','fluoxetine','fluticasone','furosemide','gabapentin','glimepiride','glyburide','glipizide','HCTZ','hydrocodone','glargine','imdur','lansoprazole','synthroid','lisinopril','lorazepam','losartan','lovastatin','meloxicam','metformin','solumedrol','toprol','lopressor','mometasone','montelukast','naproxen','omeprazole','oxycodone','pantoprazole','paroxetine','pioglitazone','pravastatin','prednisone','pregabalin','promethazine','quetiapine','ranitidine','rosuvastatin','sertraline','viagra','simvastatin','spironolactone','tamsulosin','topiramate','tramadol','trazodone','valsartan','venlafaxine','verapamil','zolpidem'];
+      const H = ['CT brain nc stroke', 'none', 'CT brain nc clear', 'CTA R LVO', 'CTA L LVO', 'CTA BL LVO', 'CTPE PE', 'CTPE no PE', 'CTPE PNA', 'CTPE clear', 'CTA nc clear', 'CTA nc PNA', 'CTAP con diverticula', 'CTAP nc diverticular', 'CTAP nc pancreatitis', 'CTAP nc GB stone', 'CTAP nc kidney stone', 'CTA leg hematoma', 'CTA leg aneurysm', 'CTA leg edema', 'MRI head clear', 'MRI foot osteo'];
+      const I = ['full', 'dnr', 'cmo'];
+      const J = ['fentanyl', 'versed', 'propofol', 'levophed', 'vasopressin', 'dobutamine', 'ketamine', 'none'];
+      const rowLabels = ["Age", "Name", "PMH", "CC", "WC-Hb-Pt", "Na-K-BUN-Cr", "Mg", "Ph", "Trops", "ECG", "TTE", "Home Meds", "Hosp Meds", "Img", "Code", "Drips"];
+
+      // Generate table headers
+      const headerRow1 = table1.insertRow();
+      const headerRow2 = table2.insertRow();
+      // Add empty cell for row labels in headers
+      headerRow1.insertCell(); 
+      headerRow2.insertCell();
+      for (let i = 1; i <= numColumns; i++) {
+        let headerCell1 = headerRow1.insertCell();
+        headerCell1.textContent = `Patient ${i}`;
+        let headerCell2 = headerRow2.insertCell();
+        headerCell2.textContent = `Patient ${i}`;
+      }
+
+      // Generate table data rows
+      for (let i = 1; i <= 16; i++) { 
+        const dataRow1 = table1.insertRow();
+        const dataRow2 = table2.insertRow();
+
+        // Add row labels to both tables
+        const labelCell1 = dataRow1.insertCell();
+        const labelCell2 = dataRow2.insertCell();
+        labelCell1.innerHTML = `<b>${rowLabels[i-1]}</b>`;
+        labelCell2.innerHTML = `<b>${rowLabels[i-1]}</b>`;
+
+        for (let j = 1; j <= numColumns; j++) {
+          let dataCell1 = dataRow1.insertCell();
+          let dataCell2 = dataRow2.insertCell();
+
+          // Generate data for Table 1
+          if (i === 1) {
+            dataCell1.textContent = Math.floor(Math.random() * 100) + 1;
+          } else if (i === 2) {
+            dataCell1.textContent = A[Math.floor(Math.random() * A.length)];
+          } else if (i === 3) {
+            let randomB = [];
+            for (let k = 0; k < 3; k++) {
+              randomB.push(B[Math.floor(Math.random() * B.length)]);
+            }
+            dataCell1.textContent = randomB.join(', ');
+          } else if (i === 4) {
+            dataCell1.textContent = C[Math.floor(Math.random() * C.length)];
+          } else if (i === 5) {
+      // Row 5: Corrected to use simple string concatenation
+      dataCell1.textContent = 
+        (Math.floor(Math.random() * 20) + 1) + "/" + 
+        (Math.floor(Math.random() * 11) + 5) + "/" + 
+        (Math.floor(Math.random() * 481) + 20); 
+    } else if (i === 6) {
+      // Row 6: Corrected to use simple string concatenation
+      dataCell1.textContent = 
+        (Math.floor(Math.random() * 31) + 120) + "/" + 
+        (Math.random() * 4 + 2).toFixed(1) + "/" + 
+        (Math.floor(Math.random() * 91) + 10) + "/" + 
+        (Math.random() * 2.5 + 0.5).toFixed(1);
+    } else if (i === 7) {
+            // Row 7: Random number between 1.0 and 3.0
+            dataCell1.textContent = (Math.random() * 2 + 1).toFixed(1);
+          } else if (i === 8) {
+            // Row 8: Random number between 1.0 and 7.0
+            dataCell1.textContent = (Math.random() * 6 + 1).toFixed(1);
+          } else if (i === 9) {
+      // Row 9: Corrected to use simple string concatenation
+      dataCell1.textContent = 
+        (Math.floor(Math.random() * 1001)) + "/" + 
+        (Math.floor(Math.random() * 2001)) + "/" + 
+        (Math.floor(Math.random() * 1001));
+    } else if (i === 10) {
+            // Row 10: Random element from array D
+            dataCell1.textContent = D[Math.floor(Math.random() * D.length)];
+          } else if (i === 11) {
+            // Row 11: Random element from array E
+            dataCell1.textContent = E[Math.floor(Math.random() * E.length)];
+          } else if (i === 12) {
+            // Row 12: 3 random elements from array F
+            let randomF = [];
+            for (let k = 0; k < 3; k++) {
+              randomF.push(F[Math.floor(Math.random() * F.length)]);
+            }
+            dataCell1.textContent = randomF.join(', ');
+          } else if (i === 13) {
+            // Row 13: 5 random elements from array G
+            let randomG = [];
+            for (let k = 0; k < 5; k++) {
+              randomG.push(G[Math.floor(Math.random() * G.length)]);
+            }
+            dataCell1.textContent = randomG.join(', ');
+          } else if (i === 14) {
+            // Row 14: Random element from array H
+            dataCell1.textContent = H[Math.floor(Math.random() * H.length)];
+          } else if (i === 15) {
+            // Row 15: Random element from array I
+            dataCell1.textContent = I[Math.floor(Math.random() * I.length)];
+          } else if (i === 16) {
+            // Row 16: Random element from array J
+            dataCell1.textContent = J[Math.floor(Math.random() * J.length)];
+          } 
+
+          dataCell1.id = `c${j}row${i}`; 
+
+          if (i === 1 || i === 2) {
+          dataRow1.style.backgroundColor = "#FAEDCB";
+        } else if (i === 3 || i === 4) {
+          dataRow1.style.backgroundColor = "#C9E4DE";
+        } else if (i >= 5 && i <= 8) {
+          dataRow1.style.backgroundColor = "#C6DEF1";
+        } else if (i >= 9 && i <= 11) {
+          dataRow1.style.backgroundColor = "#DBCDF0";
+        } else if (i === 12) {
+          dataRow1.style.backgroundColor = "#F2C6DE";
+        } else if (i === 13) {
+          dataRow1.style.backgroundColor = "#F7D9C4";
+        } else if (i === 14) {
+          dataRow1.style.backgroundColor = "#E5F8F8";
+        } else if (i === 15 || i === 16) {
+          dataRow1.style.backgroundColor = "#D6DFE8";
+        }
+
+          // Create input fields for Table 2
+          const inputField = document.createElement('input');
+          inputField.type = 'text';
+          inputField.id = `uc${j}row${i}`;
+          dataCell2.appendChild(inputField);
+
+          // Add event listener to input field
+          inputField.addEventListener('input', () => {
+            const correspondingCellId = `c${j}row${i}`;
+            const correspondingCell = document.getElementById(correspondingCellId);
+            if (inputField.value === correspondingCell.textContent) {
+              inputField.classList.add('green-input');
+              inputField.classList.remove('red-input');
+            } else {
+              inputField.classList.add('red-input');
+              inputField.classList.remove('green-input');
+            }
+          });
+        }
+      }
+
+      // Hide the form and show the tables
+      document.getElementById('form').style.display = 'none';
+      document.getElementById('tables').style.display = 'block';
+    }
+
+    // Function to toggle visibility of Table 1
+    function toggleTable1() {
+      const table1 = document.getElementById('table1');
+      if (table1.style.display === 'none') {
+        table1.style.display = 'table';
+      } else {
+        table1.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
